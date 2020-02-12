@@ -1,0 +1,14 @@
+{
+  "author": "Cifrovye tekhnologii LLC",
+  "description": "ct-electron-react-homework",
+  "name": "ct-electron-react-homework",
+  "version": "1.0.0",
+  "main": "./main.js",
+  "license": "MIT",
+  "dependencies": {
+    "history": "^4.6.3",
+    "immutable": "^3.8.1",
+    "reselect": "^3.0.1",
+    "winston": "^3.0.0"
+  }
+}
