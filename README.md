@@ -43,8 +43,22 @@ npm run package
 ```
 
 # Отправка на проверку
-Работающее задание выложите на GitHub.
-Отправьте ссылку на репозиторий как отклик на вакансию и на alg@digt.ru
+
+1. git clone https://github.com/TrustedRu/ct-electron-react-homework.git
+2. Удалить ссылку на origin
+```
+git remote rm origin
+```
+3. Добавить новую ссылку (предварительно создать новый репозиторий)
+```
+git remote add origin <url to NEW repo>
+```
+4. Залить проект
+```
+git push origin --all
+```
+
+Далее все задания выолняете в своём проекте. Отправьте ссылку на репозиторий как отклик на вакансию и на alg@digt.ru
 
 
 
