@@ -1,8 +1,12 @@
 import PropTypes from "prop-types";
 import React from "react";
+import {Link} from 'react-router-dom';
 import Modal from "../Modal/Modal";
 import EventTable from "./EventTable";
 import NewEvent from "./NewEvent";
+import {
+  LOCATION_MAIN,
+} from "./../../constants";
 
 interface IEventsWindowState {
   showModalAddEvents: boolean;
@@ -40,6 +44,7 @@ class EventsWindow extends React.Component<IEventsWindowProps & IEventsWindowDis
             </div>
             <div className="col s12">
               <a className="btn waves-effect waves-light" onClick={this.handleShowModalAddEvents}>Добавить</a>
+              <Link to={LOCATION_MAIN} className="btn waves-effect waves-light">Начальное окно</Link>
             </div>
           </div>
 

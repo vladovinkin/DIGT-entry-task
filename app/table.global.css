@@ -20,6 +20,9 @@
 .foundEvent {
   background-color: PapayaWhip;
 }
+.passedEvent {
+  background-color: rgb(255, 150,150);
+}
 .selectedRow {
   background-color: #CEE2FF;
 }

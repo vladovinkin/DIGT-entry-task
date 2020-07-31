@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+import PropTypes, { any } from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
 import { AutoSizer, Column, Table } from "react-virtualized";
@@ -8,6 +8,7 @@ import "../../table.global.css";
 import { mapToArr } from "../../utils";
 import SortDirection from "../Sort/SortDirection";
 import SortIndicator from "../Sort/SortIndicator";
+import { resolve } from "url";
 
 type TSortDirection = "ASC" | "DESC" | undefined;
 
@@ -31,7 +32,6 @@ interface IEventTableState {
 class EventTable extends React.Component<IEventTableProps & IEventTableDispatch, IEventTableState> {
   static contextTypes = {
     locale: PropTypes.string,
-
   };
 
   constructor(props: IEventTableProps & IEventTableDispatch) {
@@ -109,6 +109,7 @@ class EventTable extends React.Component<IEventTableProps & IEventTableDispatch,
             </AutoSizer>
           </div>
         </div>
+        <a className="btn waves-effect waves-light" onClick={this.handleButtonRemoveAllEvents}>Очистить список</a>
       </React.Fragment>
     );
   }
@@ -136,15 +137,22 @@ class EventTable extends React.Component<IEventTableProps & IEventTableDispatch,
   }
 
   rowClassName = ({ index }: { index: number }) => {
-    const { foundEvents } = this.state;
-
+    const { foundEvents, sortedList} = this.state;
+    
     if (index < 0) {
       return "headerRow";
     } else {
-      let rowClassName = index % 2 === 0 ? "evenRow " : "oddRow ";
+      const nowDate = new Date();
+      const {eventDate} = this.getDatum(sortedList, index);
 
+      let rowClassName = index % 2 === 0 ? "evenRow" : "oddRow";
+      
       if (foundEvents.indexOf(index) >= 0) {
-        rowClassName += "foundEvent";
+        rowClassName += " foundEvent";
+      }
+
+      if (nowDate.getTime() > Date.parse(eventDate)) { 
+        rowClassName += " passedEvent";
       }
 
       return rowClassName;
@@ -183,6 +191,10 @@ class EventTable extends React.Component<IEventTableProps & IEventTableDispatch,
 
   scrollToRow = (index: number) => {
     this.setState({ scrollToIndex: index });
+  }
+
+  handleButtonRemoveAllEvents = () => {
+    this.props.removeAllEvents();
   }
 }
 

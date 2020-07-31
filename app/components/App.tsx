@@ -4,9 +4,11 @@ import { Route } from "react-router-dom";
 import { ConnectedRouter as Router } from "react-router-redux";
 import {
   LOCATION_MAIN,
+  LOCATION_EVENTS,
 } from "../constants";
 import history from "../history";
 import store from "../store/index";
+import MainWindow from './Main/MainWindow';
 import EventsWindow from "./Events/EventsWindow";
 
 interface IAppProps {
@@ -29,7 +31,8 @@ class App extends React.Component<IAppProps, {}> {
     return (
       <Router history={history}>
         <React.Fragment>
-          <Route path={LOCATION_MAIN} component={EventsWindow} />
+          <Route exact path={LOCATION_MAIN} component={MainWindow} />
+          <Route path={LOCATION_EVENTS} component={EventsWindow} />
         </React.Fragment>
       </Router>
     );

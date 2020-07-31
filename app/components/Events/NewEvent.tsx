@@ -1,5 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { connect } from 'react-redux';
+import { addNewEvent } from "../../AC/eventsActions";
+import { filteredEventsSelector } from "../../selectors/eventsSelectors";
 
 interface INewEventProps {
   onCancel?: () => void;
@@ -9,12 +12,16 @@ interface INewEventState {
   textEvent: string;
 }
 
-class NewEvent extends React.Component<INewEventProps, INewEventState> {
+interface INewEventDispatch {
+  addNewEvent: (newEvent: any) => void;
+}
+
+class NewEvent extends React.Component<INewEventProps & INewEventDispatch, INewEventState> {
   static contextTypes = {
     locale: PropTypes.string,
   };
 
-  constructor(props: INewEventProps) {
+  constructor(props: INewEventProps & INewEventDispatch) {
     super(props);
     this.state = {
       textEvent: "",
@@ -26,7 +33,7 @@ class NewEvent extends React.Component<INewEventProps, INewEventState> {
   }
 
   componentWillUnmount() {
-    this.handelCancel();
+   this.handleCancel();
   }
 
   render() {
@@ -61,9 +68,12 @@ class NewEvent extends React.Component<INewEventProps, INewEventState> {
         <div className="row halfbottom">
           <div style={{ float: "right" }}>
             <div style={{ display: "inline-block", margin: "10px" }}>
-              <a className={"btn btn-outlined waves-effect waves-light modal-close "} onClick={this.handelCancel}>
+              <a className={"btn btn-outlined waves-effect waves-light modal-close "} onClick={this.handleAddNewEvent}>
                 Добавить
-                </a>
+              </a>
+              <a className={"btn btn-outlined waves-effect waves-light modal-close "} onClick={this.handleCancel}>
+                Отмена
+              </a>
             </div>
           </div>
         </div>
@@ -71,7 +81,7 @@ class NewEvent extends React.Component<INewEventProps, INewEventState> {
     );
   }
 
-  handelCancel = () => {
+  handleCancel = () => {
     const { onCancel } = this.props;
 
     if (onCancel) {
@@ -79,9 +89,18 @@ class NewEvent extends React.Component<INewEventProps, INewEventState> {
     }
   }
 
+  handleAddNewEvent = () => {
+      this.props.addNewEvent({
+        message: this.state.textEvent,
+        time: "2020-08-30T12:24:76.456Z",
+      });
+  }
+
   handleEventTextChange = (ev: any) => {
     this.setState({ textEvent: ev.target.value });
   }
 }
 
-export default NewEvent;
+export default connect((state) => ({
+  eventsMap: filteredEventsSelector(state),
+}), { addNewEvent }) (NewEvent);
